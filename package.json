@@ -1,0 +1,30 @@
+{
+  "name": "twitch-realtime-interactions",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:ericadamski/twitch-realtime-interactions.git",
+  "author": "Eric Adamski <er.adamski@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "@open-draft/until": "^1.0.3",
+    "@supabase/supabase-js": "^1.11.14",
+    "next": "^10.2.2",
+    "pg-promise": "^10.10.2",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "replicache": "^6.2.2",
+    "replicache-react-util": "^2.2.0",
+    "uuid": "^8.3.2"
+  },
+  "scripts": {
+    "dev": "next dev",
+    "start": "next start",
+    "build": "next build"
+  },
+  "devDependencies": {
+    "@types/react": "^17.0.6",
+    "@types/uuid": "^8.3.0",
+    "supabase": "^0.4.0",
+    "typescript": "^4.2.4"
+  }
+}
