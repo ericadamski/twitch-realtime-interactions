@@ -33,7 +33,6 @@ export function getUser(token: string) {
       "Client-Id": process.env.TWITCH_CLIENT_ID,
     },
   }).then(async (response) => {
-    console.log(response);
     if (response.ok) {
       const { data } = await response.json();
       const [{ displayName, offline_image_url, profile_image_url, id, login }] =

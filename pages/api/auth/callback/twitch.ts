@@ -1,5 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { until } from "@open-draft/until";
+import ms from "ms";
+import * as Cookie from "cookie";
 
 import * as Twitch from "lib/twitch";
 
@@ -17,16 +19,19 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   if (authError == null && authResponse.ok) {
     const { access_token, token_type } = await authResponse.json();
 
-    console.log({ token_type });
-
     const [userGetError, user] = await until(() =>
       Twitch.getUser(access_token)
     );
 
     if (userGetError == null && user != null) {
-      console.log(user);
-      // store in DB?
-      // then send back a cookie with the deets
+      res.setHeader("access-control-expose-headers", "Set-Cookie");
+      res.setHeader(
+        "Set-Cookie",
+        Cookie.serialize("__trtiu", JSON.stringify(user), {
+          expires: new Date(Date.now() + ms("1y")),
+          path: "/",
+        })
+      );
     }
   }
 
