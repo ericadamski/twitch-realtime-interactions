@@ -4,15 +4,20 @@ export async function initDb() {
   const db = await Database.get();
 
   return db.task(async (t) => {
-    await t.none("DROP SEQUENCE IF EXISTS auth_state");
+    await t.none("DROP TABLE IF EXISTS user_cursor");
     await t.none("DROP TABLE IF EXISTS replicache_client");
     await t.none("DROP SEQUENCE IF EXISTS version");
     /**
      * Create the auth_state table
      */
-    await t.none(`CREATE TABLE auth_state (
-        id  SERIAL      PRIMARY KEY NOT NULL,
-        val VARCHAR(36)             NOT NULL
+    await t.none(`CREATE TABLE user_cursor (
+        id          VARCHAR(200)  PRIMARY KEY   NOT NULL,
+        x           SMALLINT      DEFAULT 0,
+        y           SMALLINT      DEFAULT 0,
+        imageUrl    VARCHAR(500),
+        twitchLogin VARCHAR(200)                NOT NULL,
+        displayName VARCHAR(500)                NOT NULL,
+        version     BIGINT                      NOT NULL
     )`);
     /**
      * Store mutation ids for replicache

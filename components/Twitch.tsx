@@ -6,12 +6,14 @@ import { tap, switchMap, takeUntil, delay } from "rxjs/operators";
 import { useWindowSize } from "hooks/useWindowSize";
 import { User } from "types/user";
 import UserHover from "./UserHover";
+import { useReplicache } from "hooks/useReplicache";
 
 interface Props {
   user: User;
 }
 
 export function Twitch(props: Props) {
+  const rep = useReplicache();
   const ratioConstrainedContainer = useRef<HTMLDivElement>();
   const { width = 0, height = 0 } = useWindowSize();
   const [hideMouse, setHideMouse] = useState<boolean>(true);
@@ -78,6 +80,17 @@ export function Twitch(props: Props) {
       return () => sub.unsubscribe();
     }
   }, []);
+
+  useEffect(() => {
+    if (rep?.mutate.updateCursorPosition) {
+      rep?.mutate.updateCursorPosition({
+        ...props.user,
+        x: mousePosition.left,
+        y: mousePosition.top,
+        twitchLogin: props.user.login,
+      });
+    }
+  }, [mousePosition, rep]);
 
   return (
     <>

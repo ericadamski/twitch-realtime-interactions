@@ -10,9 +10,8 @@ export async function get() {
 
   if (db == null) {
     db = pgp({ connectionString: process.env.PG_CONNECTION_STRING });
+    await db.connect();
   }
-
-  await db.connect();
 
   return db;
 }
